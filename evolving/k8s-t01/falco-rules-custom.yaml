@@ -1,0 +1,27 @@
+#
+# Custom rules for my sandbox RKE2 cluster
+# Work in progress.
+#
+- list: user_known_packet_socket_binaries
+  items: [kube-vip]
+  override:
+    items: append
+
+- macro: user_known_contact_k8s_api_server_activities
+  condition: >
+    (k8s.ns.name in (kube-prometheus-stack) and container.name in (grafana-sc-datasources,grafana-sc-dashboard))
+    or (k8s.ns.name in (projectcontour) and container.name in (contour) and proc.name in (contour))
+    or (k8s.ns.name in (botkube) and container.name in (botkube) and proc.name in (botkube-agent))
+    or (k8s.ns.name in (flux-system) and container.name in (manager) and proc.name in (kustomize-contr,notification-co,helm-controller,source-controll))
+    or (k8s.ns.name in (cert-manager) and container.name in (cert-manager-webhook) and proc.name in (webhook))
+    or (k8s.ns.name in (falco) and container.name in (k8s-metacollector) and proc.name in (meta-collector))
+    or (k8s.ns.name in (kube-prometheus-stack) and container.name in (kube-state-metrics) and proc.name in (kube-state-metr))
+    or (k8s.ns.name in (external-secrets) and container.name in (cert-controller,external-secrets) and proc.name in (external-secret))
+
+- macro: user_known_stand_streams_redirect_activities
+  condition: >
+    k8s.ns.name in (longhorn-system) and container.name in (longhorn-manager) and proc.name in (longhorn,longhorn-manage)
+
+- macro: containerd_activities
+  condition: >
+    (proc.name=containerd and (fd.name startswith "/var/lib/rancher/rke2/agent/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/"))
