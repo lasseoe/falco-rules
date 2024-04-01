@@ -17,6 +17,7 @@
     or (k8s.ns.name in (falco) and container.name in (k8s-metacollector) and proc.name in (meta-collector))
     or (k8s.ns.name in (kube-prometheus-stack) and container.name in (kube-state-metrics) and proc.name in (kube-state-metr))
     or (k8s.ns.name in (external-secrets) and container.name in (cert-controller,external-secrets) and proc.name in (external-secret))
+    or (k8s.ns.name in (longhorn-system) and container.image.repository in (docker.io/longhornio/longhorn-manager) and proc.name in (longhorn-manage))
 
 - macro: user_known_stand_streams_redirect_activities
   condition: >
