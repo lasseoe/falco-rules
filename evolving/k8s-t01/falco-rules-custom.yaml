@@ -21,7 +21,9 @@
 
 - macro: user_known_stand_streams_redirect_activities
   condition: >
-    k8s.ns.name in (longhorn-system) and container.name in (longhorn-manager,instance-manager) and proc.name in (longhorn,longhorn-manage,longhorn-instan)
+    (k8s.ns.name in (longhorn-system) and container.name in (longhorn-manager,instance-manager) and proc.name in (longhorn,longhorn-manage,longhorn-instan))
+    or (k8s.ns.name in (longhorn-system) and container.name in (instance-manager) and fd.lport in (8501))
+    or (k8s.ns.name in (kube-system) and container.name in (kube-flannel) and proc.name in (flanneld))
 
 - macro: containerd_activities
   condition: >
