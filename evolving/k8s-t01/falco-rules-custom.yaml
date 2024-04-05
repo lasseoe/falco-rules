@@ -28,3 +28,5 @@
 - macro: containerd_activities
   condition: >
     (proc.name=containerd and (fd.name startswith "/var/lib/rancher/rke2/agent/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/"))
+    or (proc.name=containerd and (fd.name startswith "/var/lib/rancher/rke2/agent/containerd/tmpmounts/containerd-mount"))
+
